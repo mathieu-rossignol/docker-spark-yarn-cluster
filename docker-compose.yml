@@ -1,0 +1,58 @@
+version: '2'
+
+services:
+
+  mycluster-slave-1:
+    image: pierrekieffer/spark-hadoop-cluster
+    tty: true
+    hostname: mycluster-slave-1
+    container_name: mycluster-slave-1
+    mem_limit: 2048m
+    volumes:
+      - ${PWD}/workspace:/app/workspace
+    entrypoint: ["sh", "/app/workspace/files/entrypoint/slave.sh"]
+    networks:
+      mycluster:
+        ipv4_address: 10.7.0.3
+        
+  mycluster-slave-2:
+    image: pierrekieffer/spark-hadoop-cluster
+    tty: true    
+    hostname: mycluster-slave-2
+    container_name: mycluster-slave-2
+    mem_limit: 2048m
+    volumes:
+      - ${PWD}/workspace:/app/workspace
+    entrypoint: ["sh", "/app/workspace/files/entrypoint/slave.sh"]
+    networks:
+      mycluster:
+        ipv4_address: 10.7.0.4
+
+  mycluster-master:
+    image: pierrekieffer/spark-hadoop-cluster
+    tty: true
+    hostname: mycluster-master
+    container_name: mycluster-master
+    mem_limit: 1024m
+    volumes:
+      - ${PWD}/workspace:/app/workspace
+    entrypoint: ["sh", "/app/workspace/files/entrypoint/master.sh"]
+    depends_on:
+      - mycluster-slave-1
+      - mycluster-slave-2
+    ports:
+      - "8088:8088"
+      - "50070:50070"
+      - "50090:50090"
+      - "8080:8080"
+    networks:
+      mycluster:
+        ipv4_address: 10.7.0.2
+
+networks:
+  mycluster:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.7.0.0/16
+          gateway: 10.7.0.1

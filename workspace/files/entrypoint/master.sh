@@ -1,5 +1,3 @@
 #!/bin/bash
 
-sh /app/workspace/files/entrypoint/spark-services.sh
-
-service ssh start; cd $SPARK_HOME; bash
+service ssh start; cd $SPARK_HOME; sh /app/workspace/files/entrypoint/spark-services.sh; bash

@@ -11,6 +11,7 @@ This application allows to deploy multi-nodes hadoop cluster with spark 2.4.1 on
 ## Run docker-compose
 
 ``` bash
+docker-compose build
 docker-compose up -d
 ```
 
@@ -117,17 +118,17 @@ sh setup_ssh_access_root.sh
 
 - spark : `spark-submit --master yarn --deploy-mode client or cluster --num-executors 2 --executor-memory 4G --executor-cores 4 --class org.apache.spark.examples.SparkPi $SPARK_HOME/examples/jars/spark-examples_2.11-2.4.1.jar`
 
-- Access to Hadoop cluster Web UI : mycluster-master:8088
+- Access to Hadoop cluster Web UI : http://mycluster-master:8088
  
     ![alt text](doc/images/yarn-applications.png "Yarn applications")
     
     ![alt text](doc/images/yarn-nodes.png "Yarn nodes")
  
-- Access to spark Web UI : mycluster-master:8080
+- Access to spark Web UI : http://mycluster-master:8080
 
     ![alt text](doc/images/spark-master.png "Spark master")
     
-- Access to hdfs Web UI : mycluster-master:50070
+- Access to hdfs Web UI : http://mycluster-master:50070
 
     ![alt text](doc/images/hdfs-master.png "Hdfs master")
 

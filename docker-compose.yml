@@ -4,6 +4,7 @@ services:
 
   mycluster-slave-1:
     image: pierrekieffer/spark-hadoop-cluster
+    build: .
     tty: true
     hostname: mycluster-slave-1
     container_name: mycluster-slave-1
@@ -17,6 +18,7 @@ services:
         
   mycluster-slave-2:
     image: pierrekieffer/spark-hadoop-cluster
+    build: .
     tty: true    
     hostname: mycluster-slave-2
     container_name: mycluster-slave-2
@@ -30,6 +32,7 @@ services:
 
   mycluster-master:
     image: pierrekieffer/spark-hadoop-cluster
+    build: .
     tty: true
     hostname: mycluster-master
     container_name: mycluster-master

@@ -49,6 +49,8 @@ ADD scripts/spark-services.sh $HADOOP_HOME/spark-services.sh
 
 RUN chmod 744 -R $HADOOP_HOME
 
+RUN ln -s /usr/bin/python3 /usr/bin/python  \
+    && ln -s /usr/bin/pip3 /usr/bin/pip
 
 RUN $HADOOP_HOME/bin/hdfs namenode -format
 

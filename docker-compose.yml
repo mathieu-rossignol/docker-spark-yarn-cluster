@@ -11,6 +11,7 @@ services:
     mem_limit: 2048m
     volumes:
       - ${PWD}/workspace:/app/workspace
+      - mydata:/app/workspace/tasks
     entrypoint: ["sh", "/app/workspace/files/entrypoint/slave.sh"]
     networks:
       mycluster:
@@ -25,6 +26,7 @@ services:
     mem_limit: 2048m
     volumes:
       - ${PWD}/workspace:/app/workspace
+      - mydata:/app/workspace/tasks
     entrypoint: ["sh", "/app/workspace/files/entrypoint/slave.sh"]
     networks:
       mycluster:
@@ -39,6 +41,7 @@ services:
     mem_limit: 1024m
     volumes:
       - ${PWD}/workspace:/app/workspace
+      - mydata:/app/workspace/tasks
     entrypoint: ["sh", "/app/workspace/files/entrypoint/master.sh"]
     depends_on:
       - mycluster-slave-1
@@ -59,3 +62,11 @@ networks:
       config:
         - subnet: 10.7.0.0/16
           gateway: 10.7.0.1
+
+volumes:
+  mydata:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${TASKS_PATH}
+      o: bind

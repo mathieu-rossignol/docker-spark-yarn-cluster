@@ -3,7 +3,9 @@ FROM ubuntu:16.04
 
 USER root
 
-RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y openssh-server default-jdk wget scala
+RUN apt-get update && apt-get install -y apt-transport-https
+RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y openssh-server default-jdk wget scala python3-pip #locales
+#RUN dpkg-reconfigure locales
 RUN  apt-get -y update
 RUN  apt-get -y install zip 
 RUN  apt-get -y install vim
@@ -17,9 +19,9 @@ RUN wget -O /hadoop.tar.gz -q http://archive.apache.org/dist/hadoop/core/hadoop-
         && mv /hadoop-2.7.3 /usr/local/hadoop \
         && rm /hadoop.tar.gz
 
-RUN wget -O /spark.tar.gz -q https://archive.apache.org/dist/spark/spark-2.4.1/spark-2.4.1-bin-hadoop2.7.tgz
+RUN wget -O /spark.tar.gz -q https://archive.apache.org/dist/spark/spark-2.4.4/spark-2.4.4-bin-hadoop2.7.tgz
 RUN tar xfz spark.tar.gz
-RUN mv /spark-2.4.1-bin-hadoop2.7 /usr/local/spark
+RUN mv /spark-2.4.4-bin-hadoop2.7 /usr/local/spark
 RUN rm /spark.tar.gz
 
 
@@ -52,6 +54,9 @@ RUN chmod 744 -R $HADOOP_HOME
 RUN ln -s /usr/bin/python3 /usr/bin/python  \
     && ln -s /usr/bin/pip3 /usr/bin/pip
 
+#RUN pip install ipython
+#RUN pip install nbconvert
+
 RUN $HADOOP_HOME/bin/hdfs namenode -format
 
 EXPOSE 50010 50020 50070 50075 50090 8020 9000
@@ -60,5 +65,3 @@ EXPOSE 8030 8031 8032 8033 8040 8042 8088
 EXPOSE 49707 2122 7001 7002 7003 7004 7005 7006 7007 8888 9000
 
 ENTRYPOINT service ssh start; cd $SPARK_HOME; bash
-
-

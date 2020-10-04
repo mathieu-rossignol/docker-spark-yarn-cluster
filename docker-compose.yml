@@ -3,7 +3,7 @@ version: '2'
 services:
 
   mycluster-slave-1:
-    image: pierrekieffer/spark-hadoop-cluster
+    image: juliomederos/spark3-hadoop-yarn-cluster
     build: .
     tty: true
     hostname: mycluster-slave-1
@@ -18,7 +18,7 @@ services:
         ipv4_address: 10.7.0.3
         
   mycluster-slave-2:
-    image: pierrekieffer/spark-hadoop-cluster
+    image: juliomederos/spark3-hadoop-yarn-cluster
     build: .
     tty: true    
     hostname: mycluster-slave-2
@@ -33,7 +33,7 @@ services:
         ipv4_address: 10.7.0.4
 
   mycluster-master:
-    image: pierrekieffer/spark-hadoop-cluster
+    image: juliomederos/spark3-hadoop-yarn-cluster
     build: .
     tty: true
     hostname: mycluster-master

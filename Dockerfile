@@ -9,6 +9,7 @@ RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y openssh-serv
 RUN  apt-get -y update
 RUN  apt-get -y install zip 
 RUN  apt-get -y install vim
+RUN  apt-get -y install jq
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 RUN ssh-keygen -t rsa -f $HOME/.ssh/id_rsa -P "" \
@@ -19,9 +20,9 @@ RUN wget -O /hadoop.tar.gz -q http://archive.apache.org/dist/hadoop/core/hadoop-
         && mv /hadoop-2.7.3 /usr/local/hadoop \
         && rm /hadoop.tar.gz
 
-RUN wget -O /spark.tar.gz -q https://archive.apache.org/dist/spark/spark-2.4.4/spark-2.4.4-bin-hadoop2.7.tgz
+RUN wget -O /spark.tar.gz -q https://archive.apache.org/dist/spark/spark-3.0.0/spark-3.0.0-bin-hadoop2.7.tgz
 RUN tar xfz spark.tar.gz
-RUN mv /spark-2.4.4-bin-hadoop2.7 /usr/local/spark
+RUN mv /spark-3.0.0-bin-hadoop2.7 /usr/local/spark
 RUN rm /spark.tar.gz
 
 

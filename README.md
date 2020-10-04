@@ -1,7 +1,7 @@
-# Docker hadoop yarn cluster for spark 2.4.1
+# Docker hadoop yarn cluster for spark 3.0.0
 
 ## docker-spark-yarn-cluster 
-This application allows to deploy multi-nodes hadoop cluster with spark 2.4.1 on yarn. 
+This application allows to deploy multi-nodes hadoop cluster with spark 3.0.0 on yarn. 
 
 ## Setup
 - Clone the repo 

@@ -3,7 +3,7 @@ version: '2'
 services:
 
   mycluster-slave-1:
-    image: juliomederos/spark-hadoop-yarn-cluster
+    image: mathieu-rossignol/spark-hadoop-yarn-cluster
     build: .
     tty: true
     hostname: mycluster-slave-1
@@ -11,14 +11,14 @@ services:
     mem_limit: 2048m
     volumes:
       - ${PWD}/workspace:/app/workspace
-      - mydata:/app/workspace/tasks
+      #- mydata:/app/workspace/tasks
     entrypoint: ["sh", "/app/workspace/files/entrypoint/slave.sh"]
     networks:
       mycluster:
         ipv4_address: 10.7.0.3
         
   mycluster-slave-2:
-    image: juliomederos/spark-hadoop-yarn-cluster
+    image: mathieu-rossignol/spark-hadoop-yarn-cluster
     build: .
     tty: true    
     hostname: mycluster-slave-2
@@ -26,14 +26,14 @@ services:
     mem_limit: 2048m
     volumes:
       - ${PWD}/workspace:/app/workspace
-      - mydata:/app/workspace/tasks
+      #- mydata:/app/workspace/tasks
     entrypoint: ["sh", "/app/workspace/files/entrypoint/slave.sh"]
     networks:
       mycluster:
         ipv4_address: 10.7.0.4
 
   mycluster-master:
-    image: juliomederos/spark-hadoop-yarn-cluster
+    image: mathieu-rossignol/spark-hadoop-yarn-cluster
     build: .
     tty: true
     hostname: mycluster-master
@@ -41,7 +41,7 @@ services:
     mem_limit: 1024m
     volumes:
       - ${PWD}/workspace:/app/workspace
-      - mydata:/app/workspace/tasks
+      #- mydata:/app/workspace/tasks
     entrypoint: ["sh", "/app/workspace/files/entrypoint/master.sh"]
     depends_on:
       - mycluster-slave-1
@@ -51,6 +51,11 @@ services:
       - "50070:50070"
       - "50090:50090"
       - "8080:8080"
+      - "8030:8030"
+      - "8031:8031"
+      - "8032:8032"
+      - "8033:8033"
+      - "9000:9000"
     networks:
       mycluster:
         ipv4_address: 10.7.0.2
@@ -63,10 +68,10 @@ networks:
         - subnet: 10.7.0.0/16
           gateway: 10.7.0.1
 
-volumes:
-  mydata:
-    driver: local
-    driver_opts:
-      type: none
-      device: ${TASKS_PATH}
-      o: bind
+#volumes:
+#  mydata:
+#    driver: local
+#    driver_opts:
+#      type: none
+#      device: ${TASKS_PATH}
+#      o: bind

@@ -37,7 +37,7 @@ Ssh access:
 sh setup_ssh_access_root.sh
 ```
 
-# Access
+## Access
 
 - Docker
     ```bash 
@@ -49,7 +49,31 @@ sh setup_ssh_access_root.sh
     ssh root@mycluster-master
     ```
 
-### Run spark applications on cluster : 
+## Run spark applications from host :
+
+WARNING: Must have tuned the /etc/hosts file as described above before
+
+First of all, create user home dir in HDFS to allow spark uploading jar files. Get a shell
+on the cluster (see above) then, say your user name on your laptop (the docker host) is foo:
+
+```
+hdfs dfs -mkdir -p /user/foo
+hdfs dfs -chown -R foo:foo  /user/foo
+```
+
+Then run fors instance PI example:
+
+```
+# Spark install on your host, matching the ws spark version
+export SPARK_HOME=<path to spark home>
+# Need to point to cluster config files so that spark-submit knows how to connect to the cluster
+export HADOOP_CONF_DIR=${PWD}/config
+# Run spark PI example. Could also use --deploy-mode cluster. Jar file name must match your spark version.
+$SPARK_HOME/bin/spark-submit --master yarn --deploy-mode client --num-executors 2 --executor-memory 2G --executor-cores 4 --class org.apache.spark.examples.SparkPi $SPARK_HOME/examples/jars/spark-examples_2.11-2.3.2.jar
+```
+
+## Run spark applications from cluster :
+
 - spark-shell : 
     ```bash
      spark-shell --master yarn --deploy-mode client
@@ -69,7 +93,7 @@ sh setup_ssh_access_root.sh
         spark-shell --master yarn --deploy-mode client -i HelloWorld.scala  
         ```
         
-    - 2  
+    - 2
         ```bash
         spark-shell -i /app/workspace/files/examples/HelloWorld.scala 
         ```
@@ -82,7 +106,7 @@ sh setup_ssh_access_root.sh
   
   should output something similar to :
   
-  - 1 and 2  
+  - 1 and 2
   ```bash
   20/05/19 15:08:36 INFO Client: Application report for application_1589900555706_0002 (state: RUNNING)
   20/05/19 15:08:36 INFO Client: 

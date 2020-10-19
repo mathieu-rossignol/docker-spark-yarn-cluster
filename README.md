@@ -61,10 +61,10 @@ hdfs dfs -mkdir -p /user/foo
 hdfs dfs -chown -R foo:foo  /user/foo
 ```
 
-Then run fors instance PI example:
+Then run for instance PI example:
 
 ```
-# Spark install on your host, matching the ws spark version
+# Point to spark install on your host, matching the workspace spark version
 export SPARK_HOME=<path to spark home>
 # Need to point to cluster config files so that spark-submit knows how to connect to the cluster
 export HADOOP_CONF_DIR=${PWD}/config

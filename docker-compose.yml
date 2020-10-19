@@ -56,6 +56,7 @@ services:
       - "8032:8032"
       - "8033:8033"
       - "9000:9000"
+      - "18080:18080"
     networks:
       mycluster:
         ipv4_address: 10.7.0.2

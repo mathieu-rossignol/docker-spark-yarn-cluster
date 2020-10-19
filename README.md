@@ -58,7 +58,7 @@ on the cluster (see above) then, say your user name on your laptop (the docker h
 
 ```
 hdfs dfs -mkdir -p /user/foo
-hdfs dfs -chown -R foo:foo  /user/foo
+hdfs dfs -chown foo:foo /user/foo
 ```
 
 Then run for instance PI example:
@@ -69,6 +69,7 @@ export SPARK_HOME=<path to spark home>
 # Need to point to cluster config files so that spark-submit knows how to connect to the cluster
 export HADOOP_CONF_DIR=${PWD}/config
 # Run spark PI example. Could also use --deploy-mode cluster. Jar file name must match your spark version.
+# If want to see history of run in History Server, add: --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs:///tmp/spark/history
 $SPARK_HOME/bin/spark-submit --master yarn --deploy-mode client --num-executors 2 --executor-memory 2G --executor-cores 4 --class org.apache.spark.examples.SparkPi $SPARK_HOME/examples/jars/spark-examples_2.11-2.3.2.jar
 ```
 
@@ -152,6 +153,8 @@ $SPARK_HOME/bin/spark-submit --master yarn --deploy-mode client --num-executors 
 - Access to hdfs Web UI : http://mycluster-master:50070
 
     ![alt text](doc/images/hdfs-master.png "Hdfs master")
+
+- Access to spark History Web UI : http://mycluster-master:18080
 
 ----------------------------------------------------------------
 

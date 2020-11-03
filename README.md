@@ -2,6 +2,7 @@
 
 ## docker-spark-yarn-cluster 
 This application allows to deploy multi-nodes hadoop cluster with spark 2.3.2 on yarn.
+It also includes a solr cloud cluster if for instance you need to deploy a spark application using solr data.
 
 ## Setup
 - Clone the repo 
@@ -29,6 +30,9 @@ On Linux machines add ip addresses to "/etc/hosts":
 10.7.0.2 mycluster-master
 10.7.0.3 mycluster-slave-1
 10.7.0.4 mycluster-slave-2
+10.7.0.5 zookeeper
+10.7.0.6 solr1
+10.7.0.7 solr2
 ```
 
 Ssh access:
@@ -155,6 +159,10 @@ $SPARK_HOME/bin/spark-submit --master yarn --deploy-mode client --num-executors 
     ![alt text](doc/images/hdfs-master.png "Hdfs master")
 
 - Access to spark History Web UI : http://mycluster-master:18080
+
+- Access to solr1 Web UI : http://solr1:8983
+
+- Access to solr2 Web UI : http://solr2:8983
 
 ----------------------------------------------------------------
 

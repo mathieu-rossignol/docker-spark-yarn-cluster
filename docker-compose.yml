@@ -11,22 +11,20 @@ services:
     mem_limit: 2048m
     volumes:
       - ${PWD}/workspace:/app/workspace
-      #- mydata:/app/workspace/tasks
     entrypoint: ["sh", "/app/workspace/files/entrypoint/slave.sh"]
     networks:
       mycluster:
         ipv4_address: 10.7.0.3
-        
+
   mycluster-slave-2:
     image: mathieu-rossignol/spark-hadoop-yarn-cluster
     build: .
-    tty: true    
+    tty: true
     hostname: mycluster-slave-2
     container_name: mycluster-slave-2
     mem_limit: 2048m
     volumes:
       - ${PWD}/workspace:/app/workspace
-      #- mydata:/app/workspace/tasks
     entrypoint: ["sh", "/app/workspace/files/entrypoint/slave.sh"]
     networks:
       mycluster:
@@ -41,7 +39,6 @@ services:
     mem_limit: 1024m
     volumes:
       - ${PWD}/workspace:/app/workspace
-      #- mydata:/app/workspace/tasks
     entrypoint: ["sh", "/app/workspace/files/entrypoint/master.sh"]
     depends_on:
       - mycluster-slave-1
@@ -61,6 +58,49 @@ services:
       mycluster:
         ipv4_address: 10.7.0.2
 
+  zookeeper:
+    image: wurstmeister/zookeeper:3.4.6
+    tty: true
+    hostname: zookeeper
+    container_name: zookeeper
+    mem_limit: 512m
+    networks:
+      mycluster:
+        ipv4_address: 10.7.0.5
+
+  solr1:
+    image: solr:8.2.0
+    command: >
+      /bin/bash -c "/opt/solr/bin/solr -c -z zookeeper:2181 -m 1g; tail -f /var/solr/logs/solr.log"
+    tty: true
+    hostname: solr1
+    container_name: solr1
+    mem_limit: 1024m
+    ports:
+      - "8981:8983"
+    networks:
+      mycluster:
+        ipv4_address: 10.7.0.6
+    depends_on:
+      - zookeeper
+
+  solr2:
+    image: solr:8.2.0
+    command: >
+      /bin/bash -c "/opt/solr/bin/solr -c -f -z zookeeper:2181 -m 1g; tail -f /var/solr/logs/solr.log"
+    tty: true
+    hostname: solr2
+    container_name: solr2
+    mem_limit: 1024m
+    ports:
+      - "8982:8983"
+    networks:
+      mycluster:
+        ipv4_address: 10.7.0.7
+    depends_on:
+      - zookeeper
+      - solr1
+
 networks:
   mycluster:
     driver: bridge
@@ -68,11 +108,3 @@ networks:
       config:
         - subnet: 10.7.0.0/16
           gateway: 10.7.0.1
-
-#volumes:
-#  mydata:
-#    driver: local
-#    driver_opts:
-#      type: none
-#      device: ${TASKS_PATH}
-#      o: bind

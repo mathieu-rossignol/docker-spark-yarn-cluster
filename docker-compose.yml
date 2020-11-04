@@ -64,6 +64,8 @@ services:
     hostname: zookeeper
     container_name: zookeeper
     mem_limit: 512m
+    ports:
+      - "2181:2181"
     networks:
       mycluster:
         ipv4_address: 10.7.0.5
